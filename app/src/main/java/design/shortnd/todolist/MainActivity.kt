@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.widget.ListView
+import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
 /*
 * Copyright (C) 2017 The Android Open Source Project
@@ -30,5 +32,22 @@ class MainActivity : AppCompatActivity() {
         add_new_todo_fab.setOnClickListener {
             startActivity(Intent(this, AddNewTodoActivity::class.java))
         }
+        getRealmDatabase()
+    }
+
+    private fun getRealmDatabase() {
+        // Gets a default instance of Realm Database
+        val realm = Realm.getDefaultInstance()
+        // Queries the whole database
+        val query = realm.where(ToDoItem::class.java)
+        // Gets the results for all items in the database
+        val results = query.findAll()
+        // Gets the todoListView
+        val todoListView = findViewById<ListView>(R.id.todo_list_view)
+        // makes an array adapter for the list view
+        val adapter = ToDoAdapter(this, android.R.layout.simple_list_item_1, results)
+        // Connects the adapter to the list view
+        todoListView.adapter = adapter
+
     }
 }

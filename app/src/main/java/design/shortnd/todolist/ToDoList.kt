@@ -1,4 +1,8 @@
 package design.shortnd.todolist
+
+import android.app.Application
+import io.realm.Realm
+
 /*
 * Copyright (C) 2017 The Android Open Source Project
 *
@@ -14,14 +18,10 @@ package design.shortnd.todolist
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
-
-class AddNewTodoActivity : AppCompatActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_new_todo)
-        title = "Add New Todo"
+class ToDoList: Application() {
+    override fun onCreate() {
+        super.onCreate()
+        // Initialize Realm
+        Realm.init(this)
     }
 }

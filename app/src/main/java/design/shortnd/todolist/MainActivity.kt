@@ -28,9 +28,6 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         add_new_todo_fab.setOnClickListener {
-//            view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                    .setAction("Action", null).show()
             startActivity(Intent(this, AddNewTodoActivity::class.java))
         }
     }

@@ -20,7 +20,7 @@ import java.util.*
 * limitations under the License.
 */
 
-class ToDoItem: RealmObject() {
+open class ToDoItem: RealmObject() {
     @PrimaryKey
     private var id = UUID.randomUUID().toString()
     var name = ""

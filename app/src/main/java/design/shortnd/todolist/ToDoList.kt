@@ -18,6 +18,9 @@ import io.realm.Realm
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+
+// Class must be called in name in the application xml
+// under android:name=".class"
 class ToDoList: Application() {
     override fun onCreate() {
         super.onCreate()

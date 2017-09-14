@@ -2,12 +2,11 @@ package design.shortnd.todolist
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
-import android.view.View
 import android.widget.ListView
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
+
 /*
 * Copyright (C) 2017 The Android Open Source Project
 *
@@ -25,8 +24,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 */
 class MainActivity : AppCompatActivity() {
 
-    //TODO(1): Implement SelectedTodoDoActivity to view each todo and to be able to complete it
-    //TODO(1.2): Implement a fragment for swip navigation to next todo
+    //TODO(3): Implement a fragment for swip navigation to next todo
 
     //TODO(2): Implement EditSelectedToDoActivity to Edit the SelectedTodo
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,5 +52,11 @@ class MainActivity : AppCompatActivity() {
         // Connects the adapter to the list view
         todoListView.adapter = adapter
 
+        // Setting an onItemClickListener for the ListView
+        todoListView.setOnItemClickListener { adapterView, view, i, l ->
+            val selectedTodo = results[i]
+            startActivity(Intent(this, SelectedTodoActivity::class.java)
+                    .putExtra("selectedTodoId", selectedTodo.getId()))
+        }
     }
 }

@@ -31,10 +31,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-
         add_new_todo_fab.setOnClickListener {
             startActivity(Intent(this, AddNewTodoActivity::class.java))
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
         getRealmDatabase()
     }
 

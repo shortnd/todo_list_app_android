@@ -6,6 +6,10 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.InterstitialAd
+import com.google.android.gms.ads.MobileAds
 import io.realm.Realm
 
 
@@ -31,6 +35,7 @@ class SelectedTodoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selected_todo)
         selectedCurrentTodoId()
+        mobileAdsInitAndRequestBanner()
     }
 
     private fun selectedCurrentTodoId() {
@@ -57,6 +62,19 @@ class SelectedTodoActivity : AppCompatActivity() {
             // Click listener on the Completed Button to delete the current TodoItem
             // from the realm database
             completeSelectedTodoItemButton.setOnClickListener {
+                // Creates the InterstitialAd
+                val mInterstitialAd = InterstitialAd(applicationContext)
+                mInterstitialAd.adUnitId = "ca-app-pub-1335542357641525/6312918990"
+                // Initialize ads
+                MobileAds.initialize(applicationContext, "ca-app-pub-1335542357641525~7416857926")
+                // AdRequest
+                val adRequest = AdRequest.Builder()
+                        .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                        .build()
+                mInterstitialAd.loadAd(adRequest)
+                if (mInterstitialAd.isLoaded) {
+                    mInterstitialAd.show()
+                }
                 realm.beginTransaction()
                 selectedTodoItem.deleteFromRealm()
                 realm.commitTransaction()
@@ -68,5 +86,19 @@ class SelectedTodoActivity : AppCompatActivity() {
     // Gets the current Id of the selected TodoItem and returns it
     private fun getSelectedTodoItemId(): String {
         return intent.getStringExtra("selectedTodoId")
+    }
+
+    private fun mobileAdsInitAndRequestBanner() {
+        // Initialize ads
+        MobileAds.initialize(applicationContext, "ca-app-pub-1335542357641525/2271632014")
+        // Finds the adView
+        val adView = findViewById<AdView?>(R.id.main_activity_ad_view)
+        // Makes an adRequest with the builder
+        val adRequest = AdRequest.Builder()
+                // This IS FOR TESTING ONLY
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build()
+        // Loads the ad into the adView
+        adView?.loadAd(adRequest)
     }
 }

@@ -6,10 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.InterstitialAd
-import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.*
 import io.realm.Realm
 
 
@@ -59,26 +56,35 @@ class SelectedTodoActivity : AppCompatActivity() {
                 selectedTodoItemName.typeface = Typeface.DEFAULT_BOLD
                 selectedTodoItemImportantCheckbox.isChecked = selectedTodoItem.important
             }
+            // Creates the InterstitialAd
+            val mInterstitialAd = InterstitialAd(applicationContext)
+            mInterstitialAd.adUnitId = "ca-app-pub-1335542357641525/6312918990"
+            // Initialize ads
+            MobileAds.initialize(applicationContext, "ca-app-pub-1335542357641525~7416857926")
+            // AdRequest
+            val adRequest = AdRequest.Builder()
+                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                    .build()
+            mInterstitialAd.loadAd(adRequest)
             // Click listener on the Completed Button to delete the current TodoItem
             // from the realm database
             completeSelectedTodoItemButton.setOnClickListener {
-                // Creates the InterstitialAd
-                val mInterstitialAd = InterstitialAd(applicationContext)
-                mInterstitialAd.adUnitId = "ca-app-pub-1335542357641525/6312918990"
-                // Initialize ads
-                MobileAds.initialize(applicationContext, "ca-app-pub-1335542357641525~7416857926")
-                // AdRequest
-                val adRequest = AdRequest.Builder()
-                        .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                        .build()
-                mInterstitialAd.loadAd(adRequest)
+                // If add is loaded
                 if (mInterstitialAd.isLoaded) {
+                    completeSelectedTodoItemButton.isEnabled = true
                     mInterstitialAd.show()
+                    realm.beginTransaction()
+                    selectedTodoItem.deleteFromRealm()
+                    realm.commitTransaction()
+                } else {
+                    // Disables the complete button if the ad isn't loaded yet
+                    completeSelectedTodoItemButton.isEnabled = false
                 }
-                realm.beginTransaction()
-                selectedTodoItem.deleteFromRealm()
-                realm.commitTransaction()
-                finish()
+                mInterstitialAd.adListener = object : AdListener() {
+                    override fun onAdClosed() {
+                        finish()
+                    }
+                }
             }
         }
     }

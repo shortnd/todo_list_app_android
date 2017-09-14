@@ -24,9 +24,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 */
 class MainActivity : AppCompatActivity() {
 
-    //TODO(3): Implement a fragment for swip navigation to next todo
-
-    //TODO(2): Implement EditSelectedToDoActivity to Edit the SelectedTodo
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

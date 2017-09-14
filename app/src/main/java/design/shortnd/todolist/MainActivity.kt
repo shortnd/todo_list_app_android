@@ -4,6 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.ListView
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -31,6 +34,17 @@ class MainActivity : AppCompatActivity() {
         add_new_todo_fab.setOnClickListener {
             startActivity(Intent(this, AddNewTodoActivity::class.java))
         }
+        // Initialize ads
+        MobileAds.initialize(applicationContext, "ca-app-pub-1335542357641525/2271632014")
+        // Finds the adView
+        val adView = findViewById<AdView>(R.id.main_activity_ad_view)
+        // Makes an adRequest with the builder
+        val adRequest = AdRequest.Builder()
+                // THIS IS FOR TESTING ONLY
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build()
+        // Loads the add into the adView
+        adView.loadAd(adRequest)
     }
 
     override fun onResume() {

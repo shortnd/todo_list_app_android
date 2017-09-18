@@ -1,11 +1,15 @@
 package design.shortnd.todolist
 
+import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
+import design.shortnd.todolist.R.id.edit_selected_todo
 import com.google.android.gms.ads.*
 import io.realm.Realm
 
@@ -89,9 +93,34 @@ class SelectedTodoActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        return if (item.itemId == edit_selected_todo) {
+            editTodo(getSelectedTodoItemId())
+            true
+        } else {
+            super.onOptionsItemSelected(item)
+            false
+        }
+    }
+
     // Gets the current Id of the selected TodoItem and returns it
     private fun getSelectedTodoItemId(): String {
         return intent.getStringExtra("selectedTodoId")
+    }
+
+    private fun editTodo(id: String) {
+        val editTodoIntent = Intent(this, EditSelectedTodoActivity::class.java)
+        editTodoIntent.putExtra("id", id)
+        startActivityForResult(editTodoIntent, 1)
     }
 
     private fun mobileAdsInitAndRequestBanner() {

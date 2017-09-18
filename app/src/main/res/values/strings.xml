@@ -4,4 +4,7 @@
     <string name="add_new_todo">Add New Todo</string>
     <string name="important">Important</string>
     <string name="completed">Completed</string>
+    <string name="edit">Edit</string>
+    <string name="add_your_todo">Add Your Todo</string>
+    <string name="edit_todo">Edit</string>
 </resources>

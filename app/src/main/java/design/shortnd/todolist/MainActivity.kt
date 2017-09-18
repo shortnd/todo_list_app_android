@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         todoListView.adapter = adapter
 
         // Setting an onItemClickListener for the ListView
-        todoListView.setOnItemClickListener { adapterView, view, i, l ->
+        todoListView.setOnItemClickListener { _, _, i, _ ->
             val selectedTodo = results[i]
             startActivity(Intent(this, SelectedTodoActivity::class.java)
                     .putExtra("selectedTodoId", selectedTodo.getId()))

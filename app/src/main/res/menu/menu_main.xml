@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="design.shortnd.todolist.MainActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/edit_selected_todo"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="@string/edit_todo"
         app:showAsAction="never" />
 </menu>

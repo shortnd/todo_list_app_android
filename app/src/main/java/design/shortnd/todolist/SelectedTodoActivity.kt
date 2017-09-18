@@ -1,5 +1,6 @@
 package design.shortnd.todolist
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
@@ -37,6 +38,11 @@ class SelectedTodoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_selected_todo)
         selectedCurrentTodoId()
         mobileAdsInitAndRequestBanner()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        selectedCurrentTodoId()
     }
 
     private fun selectedCurrentTodoId() {
@@ -103,12 +109,22 @@ class SelectedTodoActivity : AppCompatActivity() {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        return if (item.itemId == edit_selected_todo) {
-            editTodo(getSelectedTodoItemId())
-            true
-        } else {
-            super.onOptionsItemSelected(item)
-            false
+//        return if (item.itemId == edit_selected_todo) {
+//            editTodo(getSelectedTodoItemId())
+//            true
+//        } else {
+//            super.onOptionsItemSelected(item)
+//            false
+//        }
+        return when(item.itemId) {
+            edit_selected_todo -> {
+                editTodo(getSelectedTodoItemId())
+                true
+            }
+            else -> {
+                super.onOptionsItemSelected(item)
+                false
+            }
         }
     }
 
@@ -120,7 +136,7 @@ class SelectedTodoActivity : AppCompatActivity() {
     private fun editTodo(id: String) {
         val editTodoIntent = Intent(this, EditSelectedTodoActivity::class.java)
         editTodoIntent.putExtra("id", id)
-        startActivityForResult(editTodoIntent, 1)
+        startActivityForResult(editTodoIntent, Activity.RESULT_OK)
     }
 
     private fun mobileAdsInitAndRequestBanner() {

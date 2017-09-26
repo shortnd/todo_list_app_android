@@ -73,7 +73,7 @@ class SelectedTodoActivity : AppCompatActivity() {
             MobileAds.initialize(applicationContext, "ca-app-pub-1335542357641525~7416857926")
             // AdRequest
             val adRequest = AdRequest.Builder()
-                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+//                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                     .build()
             mInterstitialAd.loadAd(adRequest)
             // Click listener on the Completed Button to delete the current TodoItem

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.TextView
+import kotlinx.android.synthetic.main.main_list_item.view.*
 
 /*
 * Copyright (C) 2017 The Android Open Source Project
@@ -33,15 +34,25 @@ class ToDoAdapter(context: Context?, resource: Int, objects: MutableList<ToDoIte
         return super.getCount()
     }
 
-    @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val toDoTextView = inflater.inflate(layout.simple_list_item_1, parent, false) as TextView
-        val toDoItem = getItem(position)
-        toDoTextView.text = toDoItem.name
-        if (toDoItem.important) {
-            toDoTextView.typeface = Typeface.DEFAULT_BOLD
+
+        val rowMain: View
+
+        if (convertView == null) {
+            val layoutInflater = LayoutInflater.from(parent!!.context)
+            rowMain = layoutInflater.inflate(R.layout.main_list_item, parent, false)
+            rowMain.tag = ViewHolder(rowMain.todo_item_name)
+        } else {
+            rowMain = convertView
         }
-        return toDoTextView
+
+        val toDoItem = getItem(position)
+        rowMain.todo_item_name.text = toDoItem.name
+        if (toDoItem.important) {
+            rowMain.todo_item_name.typeface = Typeface.DEFAULT_BOLD
+        }
+        return rowMain
     }
+
+    private inner class ViewHolder(val todoItemName: TextView)
 }

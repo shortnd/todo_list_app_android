@@ -1,14 +1,11 @@
 package design.shortnd.todolist
 
-import android.R.layout
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.ListView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.main_list_item.view.*
 
@@ -30,10 +27,6 @@ import kotlinx.android.synthetic.main.main_list_item.view.*
 
 class ToDoAdapter(context: Context?, resource: Int, objects: MutableList<ToDoItem>?) :
         ArrayAdapter<ToDoItem>(context, resource, objects) {
-    override fun getCount(): Int {
-        return super.getCount()
-    }
-
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 
         val rowMain: View

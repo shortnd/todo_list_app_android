@@ -10,8 +10,9 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
-import design.shortnd.todolist.R.id.edit_selected_todo
+import android.widget.Toast
 import com.google.android.gms.ads.*
+import design.shortnd.todolist.R.id.edit_selected_todo
 import io.realm.Realm
 
 
@@ -52,6 +53,8 @@ class SelectedTodoActivity : AppCompatActivity() {
         val completeSelectedTodoItemButton =
                 findViewById<Button>(R.id.selected_todo_completed_button)
 
+//        completeSelectedTodoItemButton.isEnabled = false
+
         // Gets the default instance of realm database
         val realm = Realm.getDefaultInstance()
         realm.use { realm ->
@@ -73,23 +76,24 @@ class SelectedTodoActivity : AppCompatActivity() {
             MobileAds.initialize(applicationContext, "ca-app-pub-1335542357641525~7416857926")
             // AdRequest
             val adRequest = AdRequest.Builder()
-//                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                     .build()
             mInterstitialAd.loadAd(adRequest)
             // Click listener on the Completed Button to delete the current TodoItem
             // from the realm database
+
             completeSelectedTodoItemButton.setOnClickListener {
                 // If add is loaded
                 if (mInterstitialAd.isLoaded) {
-                    completeSelectedTodoItemButton.isEnabled = true
                     mInterstitialAd.show()
+//                    completeSelectedTodoItemButton.isEnabled = true
                     realm.beginTransaction()
                     selectedTodoItem.deleteFromRealm()
                     realm.commitTransaction()
-                } else {
-                    // Disables the complete button if the ad isn't loaded yet
-                    completeSelectedTodoItemButton.isEnabled = false
+                } else if (mInterstitialAd.isLoading) {
+                    Toast.makeText(applicationContext, "Please Wait Ad is Loading", Toast.LENGTH_SHORT).show()
                 }
+
                 mInterstitialAd.adListener = object : AdListener() {
                     override fun onAdClosed() {
                         finish()
@@ -97,6 +101,8 @@ class SelectedTodoActivity : AppCompatActivity() {
                 }
             }
         }
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -116,7 +122,7 @@ class SelectedTodoActivity : AppCompatActivity() {
 //            super.onOptionsItemSelected(item)
 //            false
 //        }
-        return when(item.itemId) {
+        return when (item.itemId) {
             edit_selected_todo -> {
                 editTodo(getSelectedTodoItemId())
                 true
